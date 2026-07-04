@@ -14,7 +14,6 @@ nm-connection-editor,nmgui
 
 ly,display manager
 alacritty,GPU-accelerated terminal emulator
-ghostty,non-GPU-accelerated terminal emulator
 neovim,tui text editor
 brightnessctl,Control brightness via sysfs
 fastfetch,Terminal system info fetcher
@@ -96,12 +95,6 @@ lib32-vulkan-intel,32-bit Intel Vulkan driver
 glmark2,OpenGL benchmark tool
 egl-wayland,egl comp layer
 
-hyprland,Dynamic Wayland compositor
-wlr-randr,idk
-swww,Wallpaper daemon for Wayland
-nwg-look,GTK theme preview and changer
-nwg-displays,Wayland display configuration tool
-
 xdg-desktop-portal-hyprland,interactions 
 xdg-desktop-portal,kupa
 xdg-desktop-portal-wlr,yyy
@@ -114,6 +107,11 @@ adw-gtk-theme,Adwaita-inspired GTK theme
 materia-gtk-theme,Material Design GTK theme
 orchis-theme,Material-style GTK theme
 
+hyprland,wayland compositor
+hyprpaper,basic wallpaper utility
+swww,superior wallpaper utility
+hyprpolkitagent,policy kit for hyprland
+hyprlauncher,app launcher
 qt6-base,Qt 6 base libraries
 qt6-wayland,Wayland module for Qt6
 qt5-wayland,Wayland module for Qt5
@@ -121,6 +119,9 @@ qt6-declarative,Qt6 QML/declarative module
 qt6ct,Qt6 configuration tool
 kvantum,Kvantum theme manager
 kvantum-theme-materia,Materia Kvantum theme
+wlr-randr,idk
+nwg-look,GTK theme preview and changer
+nwg-displays,Wayland display configuration tool
 
 cups,Printing system
 cups-pdf,Print-to-PDF backend
@@ -135,14 +136,13 @@ winetricks,
 wine-mono,
 
 ripgrep,rust replacement for grep
-fd,for find
-eza,ls
+fd,fuzzy finder better than find
+eza,rusty ls
 
 mpv,Media player based on MPlayer/mplayer2 
 vlc,Versatile media player
 handbrake-cli,cli video conversion
 handbrake,gui video conversion
-pitivi,minimal gui video editor
 songrec,unofficial shazam frontend
 
 noto-fonts,Latin font family
