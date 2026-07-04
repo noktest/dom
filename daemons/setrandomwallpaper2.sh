@@ -4,7 +4,6 @@ WALLPAPER=""
 random_wallpaper() {
     local wallpaper_dir="wlp"
     local files=()
-    local selected
 
     if [[ ! -d "$wallpaper_dir" ]]; then
         echo "error: Wallpaper directory not found: $wallpaper_dir" >&2
@@ -23,7 +22,7 @@ random_wallpaper() {
         return 1
     fi
 
-    selected="${files[RANDOM % ${#files[@]}]}"
+    WALLPAPER="${files[RANDOM % ${#files[@]}]}"
     echo "selected wallpaper: $selected"
     WALLPAPER="$selected"
     return 0
