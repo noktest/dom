@@ -1,0 +1,158 @@
+wget,Command-line file downloader
+curl,Command-line tool for transferring data with URLs
+yt-dlp,YouTube and video downloader
+transmission-cli,Command-line BitTorrent client
+transmission-gtk,GTK-based BitTorrent client
+whois,domain lookup
+firefox,Open-source web browser
+torbrowser-launcher,Installer and launcher for Tor Browser
+
+nmap,network scanner
+macchanger,MAC address changer
+inetutils,
+nm-connection-editor,nmgui
+
+ly,display manager
+alacritty,GPU-accelerated terminal emulator
+ghostty,non-GPU-accelerated terminal emulator
+neovim,tui text editor
+brightnessctl,Control brightness via sysfs
+fastfetch,Terminal system info fetcher
+htop,Interactive process viewer
+nvtop,htop for gpu
+tlp,save muh battery
+fish,friendly shell
+os-prober,os prober for grub
+
+gimp,Raster graphics editor
+kolourpaint,Paint remake
+swappy,Screenshot editor
+imagemagick,cli editor
+mousepad,gui text editor
+galculator,Scientific calculator
+
+git,Distributed version control system
+rust,
+cmake,Cross-platform build system
+make,Build automation tool
+gcc,GNU C/C++ compiler
+ccache,multiple cores at rebuild
+clang,LLVM-based compiler suite
+python,General-purpose programming language
+base-devel,
+
+thunar,File manager
+engrampa,Archive manager for MATE
+p7zip,7-Zip file archiver
+unzip,ZIP archive extractor
+unrar,RAR archive extractor
+xz,xz archives
+fzf,file finder
+smartmontools,Disk health monitoring
+ntfs-3g,NTFS read/write driver
+tree-sitter,for nvim-treesitter plugin
+
+gvfs-mtp,android devices as hard drives
+android-udev-rules,IDs for android devices
+android-file-transfer,for good measure
+android-tools,idk
+
+virt-manager,Virtual machine management GUI
+qemu-full,Complete QEMU suite
+libvirt,Virtualization API
+dnsmasq,DNS/DHCP server for VM networking
+bridge-utils,Tools for network bridges
+
+pipewire,Audio/video server
+pipewire-alsa,ALSA compatibility layer
+pipewire-jack,JACK compatibility layer
+pipewire-pulse,PulseAudio compatibility layer
+wireplumber,PipeWire session manager
+pulsemixer,Terminal volume mixer
+easyeffects,Audio effects processor
+qpwgraph,PipeWire patchbay GUI
+alsa-firmware,Firmware for ALSA devices
+alsa-tools,Utilities for ALSA sound systems
+sof-firmware,Sound Open Firmware
+sof-tools,SOF device tools
+
+mesa,Open-source OpenGL/Vulkan drivers
+intel-media-driver,media decoder for intel cpus
+lib32-mesa,32-bit Mesa compatibility
+vulkan-icd-loader,Vulkan ICD loader
+lib32-vulkan-icd-loader,32-bit Vulkan ICD loader
+vulkan-intel,Intel Vulkan driver
+vulkan-nvidia,NVIDIA Vulkan driver
+vulkan-icd-loader,Vulkan loader
+vulkan-validation-layers,Optional debugging layers for troubleshooting
+vulkan-tools,Includes command-line tools like vulkaninfo and cube
+nvidia,NVIDIA proprietary driver
+nvidia-dkms,NVIDIA DKMS kernel module
+nvidia-utils,NVIDIA libraries and tools
+nvidia-prime,Hybrid GPU support
+nvidia-settings,NVIDIA control panel
+lib32-vulkan-nvidia,32-bit NVIDIA Vulkan
+lib32-vulkan-intel,32-bit Intel Vulkan driver
+glmark2,OpenGL benchmark tool
+egl-wayland,egl comp layer
+
+hyprland,Dynamic Wayland compositor
+wlr-randr,idk
+swww,Wallpaper daemon for Wayland
+nwg-look,GTK theme preview and changer
+nwg-displays,Wayland display configuration tool
+
+xdg-desktop-portal-hyprland,interactions 
+xdg-desktop-portal,kupa
+xdg-desktop-portal-wlr,yyy
+xdg-desktop-portal-gtk,
+xdg-utils,Utilities for desktop integration
+xdg-user-dirs,user dirs
+flatpak-xdg-utils,Flatpak XDG helper utilities
+
+adw-gtk-theme,Adwaita-inspired GTK theme
+materia-gtk-theme,Material Design GTK theme
+orchis-theme,Material-style GTK theme
+
+qt6-base,Qt 6 base libraries
+qt6-wayland,Wayland module for Qt6
+qt5-wayland,Wayland module for Qt5
+qt6-declarative,Qt6 QML/declarative module
+qt6ct,Qt6 configuration tool
+kvantum,Kvantum theme manager
+kvantum-theme-materia,Materia Kvantum theme
+
+cups,Printing system
+cups-pdf,Print-to-PDF backend
+cups-filters,idk
+
+blueman,Bluetooth manager GUI
+bluez,Bluetooth stack
+bluez-utils,Bluetooth utilities
+
+wine,
+winetricks,
+wine-mono,
+
+ripgrep,rust replacement for grep
+fd,for find
+eza,ls
+
+mpv,Media player based on MPlayer/mplayer2 
+vlc,Versatile media player
+handbrake-cli,cli video conversion
+handbrake,gui video conversion
+pitivi,minimal gui video editor
+songrec,unofficial shazam frontend
+
+noto-fonts,Latin font family
+noto-fonts-cjk,CJK font family
+noto-fonts-extra,Additional international fonts
+noto-fonts-emoji,Emoji font set
+adobe-source-code-pro-fonts,Monospace code font
+adobe-source-han-sans-otc-fonts,CJK sans-serif font
+terminus-font,nice tty font
+ttf-dejavu,nice grub font
+
+pacman-contrib,More pacman utilities
+flatpak,Sandboxed desktop application framework
