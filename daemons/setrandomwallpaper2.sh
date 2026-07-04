@@ -1,4 +1,6 @@
 #!/bin/bash
+set -euo pipefail
+
 WALLPAPER=""
 
 random_wallpaper() {
