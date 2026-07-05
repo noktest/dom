@@ -100,7 +100,7 @@ aur() {
             echo "all attempts to update AUR packages failed."
         else
             echo "failed to update ${#failed[@]} out of ${#packages[@]} outdated packages"
+            echo "${failed[@]}"
         fi
     fi
-    echo "${failed[@]}"
 }
