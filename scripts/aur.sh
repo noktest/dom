@@ -1,7 +1,5 @@
 aur() {
-    #local tmpuser helper packages sudoersfile
-    failed=() # failed is later overridden in aurupdate, do ssth
-
+    failed=()
     # temp user, trap
     tmpuser="aurbuild-temporary-user"
     sudoersfile="/etc/sudoers.d/$tmpuser"
@@ -31,6 +29,8 @@ aur() {
     if [[ -z "$helper" ]]; then
         echo "aur(): this script requires yay or paru"
         return 1
+    else
+        echo "aur(): $helper will be used."
     fi
 
     helper=${helper##*/}
@@ -45,8 +45,6 @@ aur() {
     echo "aur(): using $helper, updating this many packages: ${#packages[@]}"
 
     aurupdate() {
-        failed=()
-
         if runastmp "$helper" -Syu --aur --noconfirm; then
             echo "aurupdate(): AUR update completed"
             return 0
