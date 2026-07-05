@@ -1,5 +1,6 @@
 #!/bin/bash
 # sets timezone automatically (timedatectl)
+source = ./internetconnection.sh
 
 set -euo pipefail
 
@@ -11,7 +12,7 @@ APIS=(
 )
 
 # internet?
-ping -c 3 -W 3 -w 10 8.8.8.8 > /dev/null || exit 1
+internetconnection > /dev/null || exit 1
 
 for url in "${APIS[@]}"; do
    # extract the first thing that looks like iana timezone format, escape \ insensitive
