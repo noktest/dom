@@ -15,7 +15,7 @@ APIS=(
 internetconnection > /dev/null || exit 1
 
 for url in "${APIS[@]}"; do
-   # extract the first thing that looks like iana timezone format, escape \ insensitive
+   # extract the first thing that looks like iana timezone format, works with "\" too
    raw=$(curl -s --max-time 10 "$url") || continue
    timezone=$(echo "$raw" | grep -oE '[A-Z][a-z]+(\\?/([A-Z][a-z]+(_[A-Z][a-z]+)*))+' | sed 's#\\##g' | head -n1)
    # empty?
