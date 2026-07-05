@@ -32,8 +32,24 @@ random_wallpaper() {
 }
 
 use_hyprpaper() {
-    nohup hyprpaper >/dev/null 2>&1 &
-    disown
-
+    if ! pgrep -x hyprpaper >/dev/null; then
+        nohup hyprpaper >/dev/null 2>&1 &
+        disown
+        sleep 0.2
+    fi
     hyprctl hyprpaper wallpaper ", ${WALLPAPER}, cover"
 }
+
+use_awww() {
+    if ! pgrep -x awww-daemon >/dev/null; then
+        nohup awww-daemon >/dev/null 2>&1 &
+        disown
+        sleep 0.2
+    fi
+    awww img "${WALLPAPER}"
+}
+
+
+if random_wallpaper; then
+    use_hyprpaper
+fi
