@@ -6,9 +6,10 @@ WALLPAPER=""
 random_wallpaper() {
     local wallpaper_dir="wlp"
     local files=()
+    local selected
 
     if [[ ! -d "$wallpaper_dir" ]]; then
-        echo "error: Wallpaper directory not found: $wallpaper_dir" >&2
+        echo "directory not found: $wallpaper_dir" >&2
         return 1
     fi
 
@@ -20,11 +21,11 @@ random_wallpaper() {
     )
 
     if (( ${#files[@]} == 0 )); then
-        echo "Error: No image files found in $wallpaper_dir" >&2
+        echo "no image files found in $wallpaper_dir" >&2
         return 1
     fi
 
-    WALLPAPER="${files[RANDOM % ${#files[@]}]}"
+    selected="${files[RANDOM % ${#files[@]}]}"
     echo "selected wallpaper: $selected"
     WALLPAPER="$selected"
     return 0
@@ -36,9 +37,3 @@ use_hyprpaper() {
 
     hyprctl hyprpaper wallpaper ", ${WALLPAPER}, cover"
 }
-
-
-
-if random_wallpaper; then
-    use_hyprpaper
-fi
