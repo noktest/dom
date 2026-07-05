@@ -27,6 +27,6 @@ for url in "${APIS[@]}"; do
        exit 0
    fi
 done
-# chuj ci w dupe cwelu
+
 echo "failed to set timezone"
 exit 1
