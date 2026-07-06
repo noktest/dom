@@ -138,6 +138,8 @@ wine-mono,
 ripgrep,rust replacement for grep
 fd,fuzzy finder better than find
 eza,rusty ls
+duf,df improved
+bat,cat improved
 
 mpv,Media player based on MPlayer/mplayer2 
 vlc,Versatile media player
