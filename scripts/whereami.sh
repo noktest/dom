@@ -1,4 +1,5 @@
 #!/bin/bash
+# use as connectivity-change dispatcher for systemd
 # sets timezone automatically (timedatectl)
 source = ./internetconnection.sh
 
