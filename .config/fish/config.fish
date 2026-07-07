@@ -24,6 +24,24 @@ if status is-interactive
         set_color normal
     end
 
+    function __fish_history_last_command
+        echo $history[1]
+    end
+
+    function __fish_history_last_argument
+        # last element
+        string split -r -m 1 ' ' $history[1] | tail -n 1
+    end
+
+    function __fish_history_all_arguments
+        # arguments
+        string replace -r '^[^ ]+\s*' '' $history[1]
+    end
+
+    abbr -a !! --position anywhere --function __fish_history_last_command
+    abbr -a '!$' --position anywhere --function __fish_history_last_argument
+    abbr -a '!*' --position anywhere --function __fish_history_all_arguments
+
     alias ls='eza -a --color=always --group-directories-first --icons=always'  # preferred listing
     alias la='eza -la --color=always --group-directories-first --icons=always' # all files and dirs
     alias ll='eza -l --color=always --group-directories-first --icons=always'  # long format
