@@ -1,16 +1,14 @@
+local terminal    = "kitty"
+local browser     = "firefox"
+local fileManager = "thunar"
+local menu        = "hyprlauncher"
+
 hl.monitor({
     output   = "",
     mode     = "preferred",
     position = "auto",
     scale    = "auto",
 })
-
-
-local terminal    = "kitty"
-local browser     = "firefox"
-local fileManager = "thunar"
-local menu        = "hyprlauncher"
-
 
 hl.env("XCURSOR_SIZE", "24")
 hl.env("HYPRCURSOR_SIZE", "24")
