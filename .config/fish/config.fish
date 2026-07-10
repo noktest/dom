@@ -1,15 +1,35 @@
 set fish_greeting
 
 if status is-interactive
+    fish_vi_key_bindings 
+    set -g fish_cursor_default line blink      
+    set -g fish_cursor_insert underscore blink      
+    set -g fish_cursor_replace_one block 
+    set -g fish_cursor_visual block      
+
+    # stop rendering vi mode prompt
+    function fish_mode_prompt; end
+    # writing my own prompt
     function fish_prompt
         echo ""
+        switch $fish_bind_mode
+            case default
+                set_color --bold red; echo -n "[N] "
+            case insert
+                set_color --bold green; echo -n "[I] "
+            case replace_one
+                set_color --bold cyan; echo -n "[R] "
+            case visual
+                set_color --bold magenta; echo -n "[V] "
+        end
+        set_color normal
+
         set_color green
         echo -n (whoami)
         set_color normal
         echo -n " in "
         set_color blue
         echo -n (string replace (string escape --style=regex $HOME) '~' $PWD)
-        #echo -n (prompt_pwd)
 
         echo ""
 
@@ -29,12 +49,10 @@ if status is-interactive
     end
 
     function __fish_history_last_argument
-        # last element
         string split -r -m 1 ' ' $history[1] | tail -n 1
     end
 
     function __fish_history_all_arguments
-        # arguments
         string replace -r '^[^ ]+\s*' '' $history[1]
     end
 
@@ -42,11 +60,16 @@ if status is-interactive
     abbr -a '!$' --position anywhere --function __fish_history_last_argument
     abbr -a '!*' --position anywhere --function __fish_history_all_arguments
 
-    alias ls='eza -a --color=always --group-directories-first --icons=always'  # preferred listing
-    alias la='eza -la --color=always --group-directories-first --icons=always' # all files and dirs
-    alias ll='eza -l --color=always --group-directories-first --icons=always'  # long format
-    alias lt='eza -aT --color=always --group-directories-first --icons=always' # tree listing
-    alias l.="eza -a | grep -e '^\.'"                                          # show only dotfiles
+    alias ..='cd ..'
+    alias ...='cd ../..'
+    alias ....='cd ../../..'
+    alias .....='cd ../../../..'
+
+    alias ls='eza -a --color=always --group-directories-first --icons=always'
+    alias la='eza -la --color=always --group-directories-first --icons=always'
+    alias ll='eza -l --color=always --group-directories-first --icons=always'
+    alias lt='eza -aT --color=always --group-directories-first --icons=always'
+    alias l.="eza -a | grep -e '^\.'"
     alias find='fd'
     alias grep='ripgrep'
     alias cat='bat'
@@ -54,16 +77,11 @@ if status is-interactive
 
     alias untar='tar -zxvf '
     alias wget='wget -c '
+    alias cp='cp -ivr'
+    alias mv='mv -ivr' 
 
-    alias jctl="journalctl -p 3 -xb" # get the error messages from journalctl
-
-    alias unlock="sudo rm /var/lib/pacman/db.lck"
-
-    alias cp='cp -iv'
-    alias mv='mv -iv'
-
-    alias ..='cd ..'
-    alias ...='cd ../..'
-    alias ....='cd ../../..'
-    alias .....='cd ../../../..'
+    alias jctl="journalctl -p 3 -xb"
+    
+    abbr rebuild "sudo nixos-rebuild switch"
+    abbr config "sudo nvim /etc/nixos/configuration.nix"
 end
