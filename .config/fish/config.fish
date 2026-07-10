@@ -2,7 +2,7 @@ set fish_greeting
 
 if status is-interactive
     fish_vi_key_bindings 
-    set -g fish_cursor_default line blink      
+    set -g fish_cursor_default underscore      
     set -g fish_cursor_insert underscore blink      
     set -g fish_cursor_replace_one block 
     set -g fish_cursor_visual block      
