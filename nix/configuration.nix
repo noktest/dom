@@ -1,6 +1,7 @@
 { config, pkgs, ... }:
 
 {
+
 imports = [
     ./hardware-configuration.nix
 ];
@@ -36,10 +37,23 @@ boot = {
         efi = {
             canTouchEfiVariables = true;
 	};
+
         grub = {
 	    enable = true;
-	    efiSupport = true;
-      	    device = "nodev";
+            efiSupport = true;
+            device = "nodev";
+
+  # 1. FORCE THE CANVAS TO BE BIG (Crucial for size 48)
+  # 1920x1080 is safe, but since you have a high-end i9 laptop, 
+  # you could even try "2560x1440" if your screen is 2K+.
+            gfxmodeEfi = "2560x1600";
+  
+  # 2. NOW THE GIANT FONT WILL FIT COMPLETELY
+            font = "${pkgs.hack-font}/share/fonts/hack/Hack-Regular.ttf";
+            fontSize = 48; 
+
+            splashImage = null;
+            backgroundColor = "#000000";	
 	};
     };
 };
@@ -53,8 +67,6 @@ systemd.services.greetd.serviceConfig = {
     TTYVHangup = true;
     TTYVTDisallocate = true;
 };
-
-
 
 zramSwap.enable = true;
 
@@ -117,7 +129,7 @@ services = {
         # --time: shows a clock
         # --remember: remembers your last username
         # --cmd: what to launch after logging in
-            command = "${pkgs.greetd.tuigreet}/bin/tuigreet --time --remember --remember-session --sessions ${config.services.displayManager.sessionData.desktops}/share/wayland-sessions";
+            command = "${pkgs.tuigreet}/bin/tuigreet --time --remember --remember-session --sessions ${config.services.displayManager.sessionData.desktops}/share/wayland-sessions";
             user = "greeter";
         };
     };
@@ -148,39 +160,63 @@ users.users."rog" = {
 
 nixpkgs.config.allowUnfree = true;
 nix = {
-    gc = {
-        automatic = true;
-        dates = "weekly";
-        options = "--delete-older-than 7d";
-    };
-    settings.auto-optimise-store = true;
+     #settings.experimental-features = [ "nix-command" "flakes" ];
+#    gc = {
+#        automatic = true;
+#        dates = "weekly";
+#        options = "--delete-older-than 7d";
+#    };
+#    settings.auto-optimise-store = true;
 };
 
 environment.systemPackages = with pkgs; [
     alacritty
+    atlauncher
     awww
+    
     bat
     brave
     brightnessctl
+    
     curl
+    
     duf
+    
     eza
-    fastfetch
+    
     fd
+    
     gedit
+    
     hyprpaper
     hyprsunset
     hyprlauncher
     htop
+    
     kitty
-    ripgrep
+    
     mpv
-    nerdfetch
-    xz
+
+    nvtopPackages.full
+
+    pfetch
+
+    ripgrep
+    
     unrar
     unzip
+    
     wget
+    
+    xz
+
     yt-dlp
+
+    ffmpegthumbnailer # For video thumbnails (mp4, mkv, avi)
+    imagemagick       # For advanced image formats
+    poppler-utils     # For PDF previews
+    webp-pixbuf-loader # For .webp images in GTK file pickers
+    libgepub          # For epub/book covers
 ];
 
 programs = {
@@ -222,6 +258,14 @@ programs = {
 
     fish = {
         enable = true;
+    };
+
+    nh = {
+        enable = true;
+  	clean.enable = true;
+	clean.extraArgs = "--keep-since 4d --keep 3";
+ 	# Points nh to your configuration directory
+  	flake = "/etc/nixos"; 
     };
 };
 
