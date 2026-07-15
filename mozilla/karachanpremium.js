@@ -7,7 +7,7 @@
 // @grant        none
 // @run-at       document-end
 // ==/UserScript==
-
+//javascript:(()=>{document.querySelectorAll('.file a[download]').forEach(link=>link.click())})(); 
 // serwera szanowanie
 (function add20mbCheckbox() {
     const row = document.querySelector('tr td label input#spoiler')?.closest('tr');
