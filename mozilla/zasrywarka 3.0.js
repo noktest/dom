@@ -24,6 +24,7 @@ function parseTargets(text) {
     return out;
 }
 
+
 function waitForDocument() {
     return new Promise(resolve => {
         if (document.readyState === 'complete')
@@ -45,6 +46,7 @@ function applyHTML() {
                 <div class="menu-row">
                     <input type="button" id="add-button" value="dodaj link">
                     <input type="button" id="save-button" value="zapisz">
+                    <input type="button" id="clear-button" value="wyczyść">
                 </div>
                 <div class="menu-row">
                     <label><input type="checkbox" id="sage-checkbox"> saguj</label>
@@ -57,7 +59,6 @@ function applyHTML() {
                 </div>
                 <input type="button" id="start-button" value="start">
                 <div id="count-text"></div>
-                <div id="status-text"></div>
             </div>
         </div>
     `;
@@ -85,7 +86,7 @@ function applyCSS() {
         gap: 8px;
         padding: 10px;
         border: 1px solid #888;
-        border-radius: 6px;
+        border-radius: 4px;
         background: Canvas;
         color: CanvasText;
     }
@@ -98,6 +99,7 @@ function applyCSS() {
     .menu-section input[type="button"] {
         font: inherit;
         padding: 4px 8px;
+        border-radius: 4px;
         cursor: pointer;
     }
     .menu-row {
@@ -280,7 +282,7 @@ async function catalog() {
 
 async function zasrywacz(isSage, isTest, board) {
 
-    async function submit({ isSage, isTest, creating }) {
+    async function submit(isSage, isTest, creating) {
 
         async function send(creating) {
             const button = document.querySelector('td.ladda-td button.ladda-button');
@@ -299,15 +301,15 @@ async function zasrywacz(isSage, isTest, board) {
                 localStorage.setItem('save', 'true') // save the future thread
                 while (true) {
                     log("waiting for a reload");
-                    await sleep (3000)
-                    button.click(); // retry because why not
+                    await sleep (1000)
+                    button.click();
                 }
             }
             // when replying, we gotta handle it on our own
             while (lastPostTime === Number(localStorage.getItem('lastPostCreatedTime'))) {
                 log("still sending?")
-                await sleep(3000)
-                button.click(); // retry because why not
+                await sleep(1000)
+                button.click();
             }
             return;
         }
@@ -353,23 +355,18 @@ async function zasrywacz(isSage, isTest, board) {
         return;
     }
 
-
     const target = new URL(dest, location.href).href;
-
 
     await waitForDocument();
 
     if (normURL(location.href) !== normURL(target)) {
         log(`${normURL(location.href)} !== ${normURL(target)}`)
         log('renavigating to target:', target);
-        log(location.href)
 
         location.href = target;
         return;
     }
-    else {
-        log("no need to navigate")
-    }
+    else log("no need to navigate")
 
 
     if (creating) {
@@ -385,14 +382,13 @@ async function zasrywacz(isSage, isTest, board) {
 
 
     try {
-        await submit({ isSage, isTest, creating });
+        await submit(isSage, isTest, creating);
     }
     catch (error) {
         const index = targets.indexOf(target);
         log('could not prepare post:', error);
         log('this link is gonna be removed from the list')
         log(target)
-
 
         if (index !== -1) targets.splice(index, 1);
 
@@ -420,96 +416,93 @@ async function zasrywacz(isSage, isTest, board) {
 
 
 async function init() {
-    const menu = document.querySelector('.menu-window');
-    const $ = id => menu.querySelector(`#${id}`);
-    const list  = $('list-of-targets');
-    const sage  = $('sage-checkbox');
-    const test  = $('test-checkbox');
-    const start = $('start-button');
-    const count = $('count-text');
-    const stat  = $('status-text');
 
-    let isRunning = localStorage.getItem('isRunning') === 'true';
+    function setTargets(input) {
+        const text = Array.isArray(input) ? input.join(' ') : String(input ?? '');
+        const boardKey = board ? normURL(board) : null;
+
+        const cleaned = [...new Set(
+            parseTargets(text).map(target => target.replace(/(\.html).*$/i, '$1'))
+        )].filter(target => normURL(target) !== boardKey);
+
+        localStorage.setItem('targets', JSON.stringify(cleaned));
+        targetList.value = cleaned.join(' ');
+        countText.textContent = `liczba linków: ${cleaned.length}`;
+
+        console.log(cleaned);
+        return cleaned;
+    }
+
+    function addTarget(url) {
+        return setTargets(`${targetList.value} ${url}`);
+    }
+
+
+    const menu        = document.querySelector('.menu-window');
+    const targetList  = menu.querySelector('#list-of-targets');
+    const countText   = menu.querySelector('#count-text');
+    const sageBox     = menu.querySelector('#sage-checkbox');
+    const testBox     = menu.querySelector('#test-checkbox');
+    const addButton   = menu.querySelector('#add-button');
+    const saveButton  = menu.querySelector('#save-button');
+    const clearButton = menu.querySelector('#clear-button');
+    const startButton = menu.querySelector('#start-button');
+
     const board = localStorage.getItem('board');
-    const targets = JSON.parse(localStorage.getItem('targets') || '[]');
-
-    const saveTargets = text => {
-        const normalizedBoard = normURL(board);
-        const targets = [...new Set(parseTargets(text))]
-            .filter(target => normURL(target) !== normalizedBoard);
-
-        localStorage.setItem('targets', JSON.stringify(targets));
-        count.textContent = `liczba linków: ${targets.length}`;
-
-        console.log(targets);
-        return targets;
-};
+    let isRunning = localStorage.getItem('isRunning') === 'true';
 
 
-    list.value = targets.join(' ');
-    sage.checked = localStorage.getItem('isSage') === 'true';
-    test.checked = localStorage.getItem('isTest') === 'true';
-    start.value = isRunning ? 'stop' : 'start';
-    count.textContent = `liczba linków: ${targets.length}`;
+    setTargets(JSON.parse(localStorage.getItem('targets') || '[]'));
+    sageBox.checked = localStorage.getItem('isSage') === 'true';
+    testBox.checked = localStorage.getItem('isTest') === 'true';
+    startButton.value = isRunning ? 'stop' : 'start';
 
-    // handlers
-    $('kupa-button').addEventListener('click', () => cooldown());
-    $('cooldown-button').addEventListener('click', () => localStorage.setItem('lastPostCreatedTime', Date.now()-10000));
-    $('catalog-button').addEventListener('click', () => catalog());
-
-    $('add-button').addEventListener('click', () => list.value = saveTargets(`${list.value} ${location.href}`).join(' '));
-    $('save-button').addEventListener('click', () => saveTargets(list.value));
+        // handlers
+    menu.querySelector('#kupa-button').addEventListener('click', () => cooldown());
+    menu.querySelector('#cooldown-button').addEventListener('click', () => localStorage.setItem('lastPostCreatedTime', Date.now()-10000));
+    menu.querySelector('#catalog-button').addEventListener('click', () => catalog());
 
 
-    sage.addEventListener('change', () => {
-        localStorage.setItem('isSage', sage.checked);
-    });
+    addButton.addEventListener('click', () => addTarget(location.href));
+    saveButton.addEventListener('click', () => setTargets(targetList.value));
+    clearButton.addEventListener('click', () => setTargets([]));
 
-    test.addEventListener('change', () => {
-        localStorage.setItem('isTest', test.checked);
-    });;
+    sageBox.addEventListener('change', () => localStorage.setItem('isSage', sageBox.checked));
+    testBox.addEventListener('change', () => localStorage.setItem('isTest', testBox.checked));
 
-    start.addEventListener('click', () => {
+    startButton.addEventListener('click', () => {
         isRunning = !isRunning;
         localStorage.setItem('isRunning', isRunning);
 
         if (isRunning) {
             console.log('started by the user');
-            start.value = 'stop';
-            //location.href = board;
+            startButton.value = 'stop';
             initializeData();
-            zasrywacz(sage.checked, test.checked, board);
+            zasrywacz(sageBox.checked, testBox.checked, board);
         }
         else {
             console.log('interrupted by the user');
-            start.value = 'start';
-            localStorage.setItem('cataloging', 'false')
-            localStorage.setItem('save', 'false')
+            startButton.value = 'start';
+            localStorage.setItem('cataloging', 'false');
+            localStorage.setItem('save', 'false');
+            location.href = board;
         }
     });
-
-
-
 
 
     if (localStorage.getItem('cataloging') === 'true') await catalog();
 
     if (localStorage.getItem('save') === 'true') {
         console.log(`saving this link: ${location.href}`);
-
-        targets.push(location.href);
-
-        localStorage.setItem('targets', JSON.stringify(targets));
-        localStorage.setItem('save', 'false')
-
-        //await catalog(); // refresh the catalog because why not
+        addTarget(location.href);
+        localStorage.setItem('save', 'false');
     }
 
     if (isRunning) {
-        zasrywacz(sage.checked, test.checked, board);
+        zasrywacz(sageBox.checked, testBox.checked, board);
     }
     else {
-        initializeData() // no real point in doing this besides just displaying the data in console
+        initializeData();
     }
 }
 
@@ -523,15 +516,15 @@ function initializeData() {
     const whereami = new URL(location.href);
     const board = `${whereami.origin}/${whereami.pathname.split('/')[1]}`;
 
-    const catalog = JSON.parse(localStorage.getItem('catalog'));
-    const targets = JSON.parse(localStorage.getItem('targets'));
+    const catalog = JSON.parse(localStorage.getItem('catalog') || '[]')
+    const targets = JSON.parse(localStorage.getItem('targets') || '[]')
 
     const running = localStorage.getItem('isRunning') === 'true';
 
     if (running) {
         // pre-run sanity check
         if (targets.some(target => !target.startsWith(`${board}/`))) {
-            console.log('you can only raid one board at a time');
+            console.log('navigate to your chosen board');
             localStorage.setItem('isRunning', 'false');
             location.href = board;
             return;
@@ -559,10 +552,6 @@ function initializeData() {
     //localStorage.setItem('targets', null);
     //localStorage.setItem('cataloging', false);
 }
-
-
-
-
 
 
 
